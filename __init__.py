@@ -9,7 +9,7 @@ bl_info = {
 class IsolateCollectionInstance(bpy.types.Operator):
     """Isolate Collection Instance"""      # Use this as a tooltip for menu items and buttons.
     bl_idname = "collection_instance.isolate"        # Unique identifier for buttons and menu items to reference.
-    bl_label = "Isolate Collection Instance"         # Display name in the interface.
+    bl_label = "Isolate collection instance(s)"         # Display name in the interface.
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
@@ -35,7 +35,7 @@ class IsolateCollectionInstance(bpy.types.Operator):
 class AttachOrphanCollection(bpy.types.Operator):
     """Append orphan collection"""      # Use this as a tooltip for menu items and buttons.
     bl_idname = "collection_instance.attach_orphan"        # Unique identifier for buttons and menu items to reference.
-    bl_label = "Attach Orphan Collection"         # Display name in the interface.
+    bl_label = "Attach orphan collection(s)"         # Display name in the interface.
     bl_options = {'REGISTER', 'UNDO'}  # Enable undo for the operator.
 
     def execute(self, context):        # execute() is called when running the operator.
@@ -66,19 +66,20 @@ def draw_menu(self, context):
             found = True
     if found:
         layout.separator()
-        layout.operator("collection_instance.isolate", text="Isolate selected collection instance(s)")
+        layout.operator(IsolateCollectionInstance.bl_idname, text=IsolateCollectionInstance.bl_label)
+        layout.operator(AttachOrphanCollection.bl_idname, text=AttachOrphanCollection.bl_label)
 
 def register():
     bpy.utils.register_class(IsolateCollectionInstance)
     bpy.utils.register_class(AttachOrphanCollection)
     bpy.types.VIEW3D_MT_object.append(menu_func)  # Adds the new operator to an existing menu.
-    # bpy.types.NODE_MT_context_menu.append(draw_menu)
+    bpy.types.VIEW3D_MT_object_context_menu.append(draw_menu)
 
 def unregister():
     bpy.utils.unregister_class(IsolateCollectionInstance)
-    bpy.utils.unregister_class(AttachSkippedCollection)
+    bpy.utils.unregister_class(AttachOrphanCollection)
     bpy.types.VIEW3D_MT_object.remove(menu_func)  # Adds the new operator to an existing menu.
-    # bpy.types.NODE_MT_context_menu.remove(draw_menu)
+    bpy.types.VIEW3D_MT_object_context_menu.remove(draw_menu)
 
 # This allows you to run the script directly from Blender's Text editor
 # to test the add-on without having to install it.
