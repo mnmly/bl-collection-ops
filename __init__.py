@@ -55,7 +55,7 @@ class AttachOrphanCollection(bpy.types.Operator):
 
 def menu_func(self, context):
     self.layout.operator(IsolateCollectionInstance.bl_idname)
-    self.layout.operator(AttachSkippedCollection.bl_idname)
+    self.layout.operator(AttachOrphanCollection.bl_idname)
 
 def draw_menu(self, context):
     layout = self.layout
@@ -70,7 +70,7 @@ def draw_menu(self, context):
 
 def register():
     bpy.utils.register_class(IsolateCollectionInstance)
-    bpy.utils.register_class(AttachSkippedCollection)
+    bpy.utils.register_class(AttachOrphanCollection)
     bpy.types.VIEW3D_MT_object.append(menu_func)  # Adds the new operator to an existing menu.
     # bpy.types.NODE_MT_context_menu.append(draw_menu)
 
